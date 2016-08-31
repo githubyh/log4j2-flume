@@ -18,7 +18,7 @@ public class WriteLog {
     public static void main(String[] args) throws InterruptedException {  
     	
     	 System.out.println("雅莉姿新款女靴韩版英伦马丁靴中跟女鞋复古短靴女及踝靴潮雅莉姿新款女靴韩版英伦马丁靴中跟女鞋复古短靴女及踝靴潮雅莉姿新款".length());
-         ExecutorService executor = Executors.newFixedThreadPool(100);
+         ExecutorService executor = Executors.newFixedThreadPool(500);
         for (int i = 0; i < 500; i++) {
         	executor.submit(new Runnable() {
                 public void run() {
