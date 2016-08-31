@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<Configuration status="no">
+<appenders>
+    <!--这个输出控制台的配置 -->
+    <Console name="Console" target="SYSTEM_OUT">
+        <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+        <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+        <!--这个都知道是输出日志的格式 -->
+        <!--<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss SSS} %-5level - %-18.18c{2} - %msg%xEx%n"/>-->
+        <PatternLayout pattern="%msg%xEx%n"/>
+    </Console>
+    <!--flume appender的配置，此处采用Avro类型 -->
+    <Flume name="FlumeAppender" compress="false" type="Avro" batchSize="500" >
+        <Agent host="192.168.147.201" port="55566"  >
+        </Agent>
+        <PatternLayout pattern="%msg%xEx%n"/>
+    </Flume>
+</appenders>
+
+<loggers>
+<!--建立一个默认的root的logger -->
+<root level="debug">
+    <appender-ref ref="Console"/>
+    <appender-ref ref="FlumeAppender"/>
+</root>
+<!--该logger专为某个类使用，使用了上面定义的FlumeAppender -->
+<!--<logger name="log.WriteLog" level="info" additivity="false">-->
+    <!--&lt;!&ndash;<appender-ref ref="Console"/>&ndash;&gt;-->
+    <!--<appender-ref ref="FlumeAppender"  />-->
+<!--</logger>-->
+    <!-- 异步日志 -->
+    <AsyncLogger name="log.WriteLog" level="trace"  additivity="false" includeLocation="true">
+        <AppenderRef ref="FlumeAppender"/>
+    </AsyncLogger>
+</loggers>
+</Configuration>
+<!--
+<configuration status="no">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss SSS} %-5level - %-18.18c{2} - %msg%xEx%n" />
+        </Console>
+        <Flume name="FlumeAppender" compress="false" type="Embedded" >
+            <Property name="channel.type">memory</Property>
+            <Property name="channel.capacity">500</Property>
+            <Property name="sinks">agent1</Property>
+            <Property name="agent1.type">avro</Property>
+            <Property name="agent1.hostname">192.168.147.201</Property>
+            <Property name="agent1.port">55566</Property>
+            <Property name="agent1.batch-size">200</Property>
+            <Property name="processor.type">failover</Property>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss SSS} %-5level - %-18.18c{2} - %msg%xEx%n" />
+        </Flume>
+    </appenders>
+    <loggers>
+        <root level="debug">
+            <appender-ref ref="Console" />
+            <appender-ref ref="FlumeAppender" />
+        </root>
+    </loggers>
+</configuration>-->
