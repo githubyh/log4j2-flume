@@ -124,7 +124,7 @@ public class LogClient {
     	log.setUserId(userId);
     	log.setLogBody(body);
     	log.setTimeConsuming(timeConsuming);
-		FastDateFormat format = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		FastDateFormat format = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mm:ss.SSS+08:00");
 		log.setTimestamp(format.format(new Date()));
     	log.setTimeConsuming(String.valueOf(new Random().nextInt(23456)));
     	logger.info(log.toString());

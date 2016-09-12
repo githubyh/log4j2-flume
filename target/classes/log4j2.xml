@@ -12,9 +12,9 @@
         <PatternLayout pattern="%msg%xEx%n"/>
     </Console>
     <!--flume appender的配置，此处采用Avro类型 -->
-    <Flume name="FlumeAppender" compress="false" type="Avro" batchSize="500" >
-        <Agent host="192.168.147.201" port="55566"  >
-        </Agent>
+    <Flume name="FlumeAppender" compress="false" type="Avro" batchSize="1000" lockTimeoutRetries="10">
+        <Agent host="192.168.147.201" port="55566"   />
+        <Agent host="192.168.147.202" port="55566"  />
         <PatternLayout pattern="%msg%xEx%n"/>
     </Flume>
 </appenders>
@@ -33,6 +33,8 @@
     <!-- 异步日志 -->
     <AsyncLogger name="log.WriteLog" level="trace"  additivity="false" includeLocation="true">
         <AppenderRef ref="FlumeAppender"/>
+
+        <AppenderRef ref="Console" />
     </AsyncLogger>
 </loggers>
 </Configuration>
